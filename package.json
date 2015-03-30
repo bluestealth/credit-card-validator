@@ -1,0 +1,22 @@
+{
+  "name": "credit-card-validator",
+  "version": "0.0.1",
+  "description": "Provides Credit Card Validation",
+  "main": "credit-card-validator.js",
+  "scripts": {},
+  "keywords": [
+    "credit",
+    "cards",
+    "validation"
+  ],
+  "author": "Michael Dempsey",
+  "license": "LGPLv3+",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:bluestealth/credit-card-validator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bluestealth/credit-card-validator/issues"
+  },
+  "homepage": "https://github.com/bluestealth/credit-card-validator"
+}
