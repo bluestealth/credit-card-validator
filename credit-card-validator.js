@@ -1,5 +1,5 @@
-/*
- * Copyright (C) 2015 Michael Dempsey
+/* 
+ * @license Copyright (C) 2015 Michael Dempsey
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
