@@ -2,8 +2,15 @@
   "name": "credit-card-validator",
   "version": "1.0.0",
   "description": "Provides Credit Card Validation",
+  "dependencies": {},
+  "devDependencies": {
+    "browserify": "^9.0.3",
+    "uglifyjs": "^2.4.10"
+  },
   "main": "credit-card-validator.js",
-  "scripts": {},
+  "scripts": {
+    "prepublish": "browserify credit-card-validator.js -o credit-card-validator-web.js; uglifyjs --comments --compress --screw-ie8 credit-card-validator-web.js -o credit-card-validator-web.min.js;"
+  },
   "keywords": [
     "credit",
     "cards",
