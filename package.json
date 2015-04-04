@@ -5,12 +5,18 @@
   "dependencies": {},
   "devDependencies": {
     "browserify": "^9.0.3",
-    "uglifyjs": "^2.4.10"
+    "gulp": "^3.8.11",
+    "gulp-rename": "^1.2.2",
+    "gulp-rm": "^1.0.0",
+    "gulp-sourcemaps": "^1.5.1",
+    "gulp-uglify": "^1.1.0",
+    "gulp-util": "^3.0.4",
+    "uglify-js": "^2.4.19",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0"
   },
   "main": "credit-card-validator.js",
-  "scripts": {
-    "prepublish": "browserify ./credit-card-validator.js -s credit-card-validator -o ./dist/credit-card-validator-web.js; uglifyjs --comments --compress --screw-ie8 ./dist/credit-card-validator-web.js -o ./dist/credit-card-validator-web.min.js;"
-  },
+  "scripts": {},
   "keywords": [
     "credit",
     "cards",
