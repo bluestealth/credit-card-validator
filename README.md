@@ -18,23 +18,23 @@ var creditCardValidator = require('credit-card-validator')
 
 ```
 
-### creditCardValidator.getCardName(string)
+### creditCardValidator.getCardName(accountString)
 
 Processes a string containing a partial or full credit card number and returns the card type.
 
-### creditCardValidator.getFaClass(string)
+### creditCardValidator.getFaClass(accountString)
 
 Processes a string contaning a partial or full credit card number and returns the font-awesome class related to the given card.
 
-### creditCardValidator.getCardAccountNumLengths(string)
+### creditCardValidator.getCardAccountNumLengths(accountString)
 
 Processes a string containing a partial or full credit card number and returns the accepted account number lengths for a given card type.
 
-### creditCardValidator.getCardSecurityNumLengths(string)
+### creditCardValidator.getCardSecurityNumLengths(accountString)
 
 Processes a string containing a partial or full credit card number and returns the accepted security number lengths for a given card type.
 
-### creditCardValidator.validateCardLength(string)
+### creditCardValidator.validateCardLength(accountString)
 
 Processes a string containing a full credit card number and returns true if the length of the account number given is acceptable for a given type of card.
 
@@ -42,7 +42,7 @@ Processes a string containing a full credit card number and returns true if the 
 
 Processes a string containing a partial or full credit card number along with a security code and returns true if the length of the security code is acceptable for a given type of card.
 
-### creditCardValidator.validateCardLuhn(string)
+### creditCardValidator.validateCardLuhn(accountString)
 
 Processes a string containing a credit card number and returns true if the luhn checksum is correct.
 
