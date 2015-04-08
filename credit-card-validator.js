@@ -82,6 +82,17 @@ var getNumberString = function(string) {
 	return matches.join('');
 };
 
+Array.prototype.unique = function(arr) {
+	var arrOut = [];
+
+	for(var i = 0, arrLen = this.length; i < arrLen; i++) {
+		if(arrOut.indexOf(this[i]) < 0)
+			arrOut.push(this[i]);
+	}
+
+	return arrOut;
+};
+
 var luhnCheck = function(numberString) {
 	function processDigit(num) {
 		num *= 2;
@@ -153,10 +164,14 @@ exports.getCardSecurityNumLengths = function(string) {
 	for(var type in creditCardTypes) {
 		if(creditCardTypes[type].regex.test(numberString)) {
 			var codeLengths = creditCardTypes[type].codeLengths;
+			var allSecurityCodeLengths = [];
 			for(var i = 0, arrLen = codeLengths.length; i < arrLen; i++) {
+				allSecurityCodeLengths = allSecurityCodeLengths.concat(codeLengths[i].securityNum);
 				if(codeLengths[i].accountNum === numLength) {
 					typeLengths = codeLengths[i].securityNum;
 					break;
+				} else if(typeLengths[0] < 0 && i === arrLen-1) {
+					typeLengths = allSecurityCodeLengths.unique();
 				}
 			}
 			break;
