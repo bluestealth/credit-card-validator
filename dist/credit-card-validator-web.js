@@ -83,6 +83,17 @@ var getNumberString = function(string) {
 	return matches.join('');
 };
 
+Array.prototype.unique = function(arr) {
+	var arrOut = [];
+
+	for(var i = 0, arrLen = this.length; i < arrLen; i++) {
+		if(arrOut.indexOf(this[i]) < 0)
+			arrOut.push(this[i]);
+	}
+
+	return arrOut;
+};
+
 var luhnCheck = function(numberString) {
 	function processDigit(num) {
 		num *= 2;
@@ -107,11 +118,11 @@ var luhnCheck = function(numberString) {
 	return (checksum %10) === 0;
 };
 
-exports.getCardName = function(string) {
-	var numberString = getNumberString(string);
+exports.getCardName = function(accountString) {
+	var accountNumberString = getNumberString(accountString);
 	var cardName = '';
-	for(var type in creditCardTypes) {
-		if(creditCardTypes[type].regex.test(numberString)) {
+	for(var type = 0, numTypes = creditCardTypes.length; type < numTypes; type++) {
+		if(creditCardTypes[type].regex.test(accountNumberString)) {
 			cardName = creditCardTypes[type].cardName;
 			break;
 		}
@@ -119,11 +130,11 @@ exports.getCardName = function(string) {
 	return cardName;
 };
 
-exports.getFaClass = function(string) {
-	var numberString = getNumberString(string);
+exports.getFaClass = function(accountString) {
+	var accountNumberString = getNumberString(accountString);
 	var faClass = '';
-	for(var type in creditCardTypes) {
-		if(creditCardTypes[type].regex.test(numberString)) {
+	for(var type = 0, numTypes = creditCardTypes.length; type < numTypes; type++) {
+		if(creditCardTypes[type].regex.test(accountNumberString)) {
 			faClass = creditCardTypes[type].faClass;
 			break;
 		}
@@ -131,11 +142,11 @@ exports.getFaClass = function(string) {
 	return faClass;
 };
 
-exports.getCardAccountNumLengths = function(string) {
-	var numberString = getNumberString(string);
+exports.getCardAccountNumLengths = function(accountString) {
+	var accountNumberString = getNumberString(accountString);
 	var typeLengths = [-1];
-	for(var type in creditCardTypes) {
-		if(creditCardTypes[type].regex.test(numberString)) {
+	for(var type = 0, numTypes = creditCardTypes.length; type < numTypes; type++) {
+		if(creditCardTypes[type].regex.test(accountNumberString)) {
 			var codeLengths = creditCardTypes[type].codeLengths;
 			typeLengths = codeLengths.map( function(elem) {
 				return elem.accountNum;
@@ -146,18 +157,22 @@ exports.getCardAccountNumLengths = function(string) {
 	return typeLengths;
 };
 
-exports.getCardSecurityNumLengths = function(string) {
-	var numberString = getNumberString(string);
+exports.getCardSecurityNumLengths = function(accountString) {
+	var accountNumberString = getNumberString(accountString);
 	var typeLengths = [-1];
-	var numLength = numberString.length;
+	var numLength = accountNumberString.length;
 
-	for(var type in creditCardTypes) {
-		if(creditCardTypes[type].regex.test(numberString)) {
+	for(var type = 0, numTypes = creditCardTypes.length; type < numTypes; type++) {
+		if(creditCardTypes[type].regex.test(accountNumberString)) {
 			var codeLengths = creditCardTypes[type].codeLengths;
+			var allSecurityCodeLengths = [];
 			for(var i = 0, arrLen = codeLengths.length; i < arrLen; i++) {
+				allSecurityCodeLengths = allSecurityCodeLengths.concat(codeLengths[i].securityNum);
 				if(codeLengths[i].accountNum === numLength) {
 					typeLengths = codeLengths[i].securityNum;
 					break;
+				} else if(typeLengths[0] < 0 && i === arrLen-1) {
+					typeLengths = allSecurityCodeLengths.unique();
 				}
 			}
 			break;
@@ -166,15 +181,15 @@ exports.getCardSecurityNumLengths = function(string) {
 	return typeLengths;
 };
 
-exports.validateCardLength = function(string) {
-	var numberString = getNumberString(string);
+exports.validateCardLength = function(accountString) {
+	var accountNumberString = getNumberString(accountString);
 	var baseTest = /^[0-9]{15,16}$/;
 
-	if(!baseTest.test(numberString))
+	if(!baseTest.test(accountNumberString))
 		return false;
 
-	var numLength  = numberString.length;
-	var typeLengths = exports.getCardAccountNumLengths(numberString);
+	var numLength  = accountNumberString.length;
+	var typeLengths = exports.getCardAccountNumLengths(accountNumberString);
 
 	if(typeLengths[0] < 0 || typeLengths.indexOf(numLength) < 0)
 		return false
@@ -199,9 +214,9 @@ exports.validateCardSecurityCodeLength = function(accountString, securityString)
 	return true;
 };
 
-exports.validateCardLuhn = function(string) {
-	var numberString = getNumberString(string);
-	return luhnCheck(numberString);
+exports.validateCardLuhn = function(accountString) {
+	var accountNumberString = getNumberString(accountString);
+	return luhnCheck(accountNumberString);
 };
 
 exports.validateCard = function(accountString) {
